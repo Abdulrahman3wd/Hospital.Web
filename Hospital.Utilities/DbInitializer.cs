@@ -50,13 +50,13 @@ namespace Hospital.Utilities
 
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "Abdulrahman3wd" , 
-                    Email = "abdulrahmanawad7861991@gmail.com",                  
-                }, "abdulrahmanawad7861991@gmail.com").GetAwaiter().GetResult();
+                    UserName = "Abdulrahman3wd",
+                    Email = "abdulrahmanawad7861991@gmail.com",
+                }, "Abdulrahman@123").GetAwaiter().GetResult();
 
                 var appUser = _context.ApplicationUsers.FirstOrDefault(x => x.Email == "abdulrahmanawad7861991@gmail.com");
 
-                if (appUser is not null)
+                if (appUser != null)
                 {
                     _userManager.AddToRoleAsync(appUser, WebSiteRoles.WebSite_Admin).GetAwaiter().GetResult();                
                 }

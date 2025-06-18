@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Hospital.Utilities;
 using Hospital.Repositories.Interfaces;
 using Hospital.Repositories.Implementations;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddIdentity<IdentityUser , IdentityRole>()
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

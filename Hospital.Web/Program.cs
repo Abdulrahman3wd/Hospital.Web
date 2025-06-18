@@ -1,6 +1,10 @@
 using Hospital.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Internal;
+using Hospital.Utilities;
+using Hospital.Repositories.Interfaces;
+using Hospital.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +15,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddIdentity<IdentityUser , IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -28,13 +38,39 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.MapRazorPages();
 app.MapStaticAssets();
+
+DataSeeding();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{Area=Patient}/{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 
 app.Run();
+
+void DataSeeding()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+
+        try
+        {
+            var context = services.GetRequiredService<ApplicationDbContext>();
+
+
+            context.Database.Migrate();
+
+            var dbInitializer = services.GetRequiredService<IDbInitializer>();
+            dbInitializer.Initialize(); 
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during migration or seeding: {ex.Message}");
+        }
+    }
+
+}

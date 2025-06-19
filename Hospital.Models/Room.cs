@@ -7,7 +7,7 @@
         public string Type { get; set; } = null!;
         public string Status { get; set; } = null!;
         public int HospitalId { get; set; }
-        public Hospital Hospital { get; set; } = null!;
+        public HospitalInfo Hospital { get; set; } = null!;
 
 
 

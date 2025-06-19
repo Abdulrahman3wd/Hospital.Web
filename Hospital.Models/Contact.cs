@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public int HospitalId { get; set; }
-        public Hospital Hospital { get; set; } = null!;
+        public HospitalInfo Hospital { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Phone { get; set; } = null!;
     }

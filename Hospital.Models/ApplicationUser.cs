@@ -17,8 +17,8 @@ namespace Hospital.Models
         public DateTime DOB { get; set; }
         public string Specialist { get; set; } = null!;
         public Department Department { get; set; } = null!;
-        public ICollection<Appointment> Appointments { get; set; } = []!;
-        public ICollection<Payroll> Payrolls { get; set; } = []!;
+        public ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
+        public ICollection<Payroll> Payrolls { get; set; } =new HashSet<Payroll>();
 
 
 

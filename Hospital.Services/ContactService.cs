@@ -20,7 +20,7 @@ namespace Hospital.Services
         }
         public void AddContact(ContactViewModel contact)
         {
-            var model = new ContactViewModel().ConvertViewModel(Contact);
+            var model = new ContactViewModel().ConvertViewModel(contact);
             _unitOfWork.GenericRepository<Contact>().Add(model);
             _unitOfWork.Save();
         }

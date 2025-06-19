@@ -1,10 +1,10 @@
-﻿@model PageResult<Hospital.ViewModels.HospitalInfoViewModel>
+﻿@model PageResult<Hospital.ViewModels.RoomViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Room List";
 }
 
-<h2 class="mb-3">Hospital List</h2>
+<h2 class="mb-3">Room List</h2>
 
 <div class="mb-3">
     <a asp-action="Create" class="btn btn-success">
@@ -16,11 +16,10 @@
     <thead class="table-dark">
         <tr>
             <th>Id</th>
-            <th>Name</th>
+            <th>Room Number</th>
             <th>Type</th>
-            <th>City</th>
-            <th>PinCode</th>
-            <th>Country</th>
+            <th>Status</th>
+            <th>Hospital Id</th>
             <th class="text-center">Actions</th>
         </tr>
     </thead>
@@ -31,11 +30,10 @@
             {
                 <tr>
                     <td>@item.Id</td>
-                    <td>@item.Name</td>
+                    <td>@item.RoomNumber</td>
                     <td>@item.Type</td>
-                    <td>@item.City</td>
-                    <td>@item.PinCode</td>
-                    <td>@item.Country</td>
+                    <td>@item.Status</td>
+                    <td>@item.HospitalInfoId</td>
                     <td class="text-center">
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1" title="Edit">
                             <i class="fas fa-edit"></i>
@@ -53,7 +51,7 @@
         else
         {
             <tr>
-                <td colspan="7" class="text-center text-muted">No records found.</td>
+                <td colspan="6" class="text-center text-muted">No records found.</td>
             </tr>
         }
     </tbody>
@@ -65,7 +63,7 @@
               cs-paging-pagesize="Model.PageSize"
               cs-pagenumber-param="pageNumber"
               asp-area="admin"
-              asp-controller="Hospital"
+              asp-controller="Room" 
               asp-action="Index"
               cs-pager-li-current-class="page-item active"
               cs-pager-li-other-class="page-item"

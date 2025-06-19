@@ -25,6 +25,8 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IHospitalInfo, HospitalInfoService>();
+builder.Services.AddTransient<IRoom, RoomService>();
+builder.Services.AddTransient<IContact, ContactService>();
 builder.Services.AddCloudscribePagination();
 
 var app = builder.Build();

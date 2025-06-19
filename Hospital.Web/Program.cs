@@ -6,6 +6,7 @@ using Hospital.Utilities;
 using Hospital.Repositories.Interfaces;
 using Hospital.Repositories.Implementations;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Hospital.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IHospitalInfo, HospitalInfoService>();
+builder.Services.AddCloudscribePagination();
 
 var app = builder.Build();
 
@@ -47,7 +50,7 @@ DataSeeding();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{Area=Patient}/{controller=Home}/{action=Index}/{id?}")
+    pattern: "{Area=Admin}/{controller=Hospital}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

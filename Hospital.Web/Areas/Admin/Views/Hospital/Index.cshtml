@@ -1,0 +1,80 @@
+﻿@model PageResult<Hospital.ViewModels.HospitalInfoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                PinCode
+            </th>
+            <th>
+                Country
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Data != null && Model.Data.Any())
+        {
+            foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                    <td>@Html.DisplayFor(modelItem => item.City)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PinCode)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-md btn-outline-primary me-1" title="Edit"><i class="fas fa-edit"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-md btn-outline-info me-1" title="Details"><i class="fas fa-info-circle"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-md btn-outline-danger" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center text-muted">No records found.</td>
+            </tr>
+        }
+
+ </tbody>
+</table>
+
+<div class="d-flex justify-content-center ">
+    <cs-pager cs-paging-pagenumber="Model.PageNumber"
+              cs-paging-totalitems="Model.TotalItems"
+              cs-paging-pagesize="Model.PageSize"
+              cs-pagenumber-param="pageNumber"
+              asp-area="admin"
+              asp-controller="Hospital"
+              asp-action="Index"
+              cs-pager-li-current-class="page-item active"
+              cs-pager-li-other-class="page-item"
+              cs-pager-li-non-active-class="page-item disabled"
+              cs-pager-link-current-class="page-link"
+              cs-pager-link-other-class="page-link">
+    </cs-pager>
+</div>
+

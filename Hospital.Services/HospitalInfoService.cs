@@ -37,39 +37,30 @@ namespace Hospital.Services
 
         public PageResult<HospitalInfoViewModel> GetAll(int pageNumber, int pageSize)
         {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber; 
 
-            var vm = new HospitalInfoViewModel();
-
-            int totalCount = 0; 
-
-            List<HospitalInfoViewModel> vmList = new List<HospitalInfoViewModel>();
-            try
-            {
-                int excludeRecords = (pageSize * pageNumber) - pageSize;
-
-                var modelList = _unitOfWork.GenericRepository<HospitalInfo>().GetAll()
-                    .Skip(excludeRecords).Take(pageSize).ToList();
-
-                totalCount = _unitOfWork.GenericRepository<HospitalInfo>().GetAll().ToList().Count;
-
-                vmList = ConvertModelToViewModelList(modelList);
-
-
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
             var result = new PageResult<HospitalInfoViewModel>
             {
-                Data = vmList,
-                TotalItems = totalCount,
                 PageNumber = pageNumber,
-                PageSize = pageSize
-
+                PageSize = pageSize,
+                Data = new List<HospitalInfoViewModel>()
             };
-            return result;
 
+            try
+            {
+                var allItems = _unitOfWork.GenericRepository<HospitalInfo>().GetAll();
+
+                result.TotalItems = allItems.Count();
+                result.Data = ConvertModelToViewModelList(
+                    allItems.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()
+                );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in GetAll: " + ex.Message);
+            }
+
+            return result;
         }
 
         public HospitalInfoViewModel GetHospitalById(int hospitalId)
@@ -83,16 +74,21 @@ namespace Hospital.Services
         public void UpdateHospitalInfo(HospitalInfoViewModel hospitalInfo)
         {
             var model = new HospitalInfoViewModel().ConvertViewModel(hospitalInfo);
+
             var modelById = _unitOfWork.GenericRepository<HospitalInfo>().GetById(model.Id);
 
             modelById.Name = hospitalInfo.Name;
+
             modelById.City = hospitalInfo.City;
+            modelById.Type = hospitalInfo.Type;
+
             modelById.Country = hospitalInfo.Country;
             modelById.PinCode = hospitalInfo.PinCode;
                     
             _unitOfWork.GenericRepository<HospitalInfo>().Update(modelById);
-
             _unitOfWork.Save();
+
+
         }
 
         private List<HospitalInfoViewModel> ConvertModelToViewModelList(List<HospitalInfo> modelList)

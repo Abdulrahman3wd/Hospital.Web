@@ -34,14 +34,12 @@ namespace Hospital.Services
 
         public PageResult<RoomViewModel> GetAll(int pageNumber, int pageSize)
         {
-            int count = 0;
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
             var result = new PageResult<RoomViewModel>
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                TotalItems = count,
                 Data = new List<RoomViewModel>()
             };
 

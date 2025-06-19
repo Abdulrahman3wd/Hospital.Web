@@ -37,11 +37,13 @@ namespace Hospital.Services
 
         public PageResult<HospitalInfoViewModel> GetAll(int pageNumber, int pageSize)
         {
-            pageNumber = pageNumber < 1 ? 1 : pageNumber; 
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            var totaCount = _unitOfWork.GenericRepository<HospitalInfo>().GetAll().ToList().Count();
 
             var result = new PageResult<HospitalInfoViewModel>
             {
                 PageNumber = pageNumber,
+                TotalItems = totaCount,
                 PageSize = pageSize,
                 Data = new List<HospitalInfoViewModel>()
             };
@@ -49,7 +51,6 @@ namespace Hospital.Services
             try
             {
                 var allItems = _unitOfWork.GenericRepository<HospitalInfo>().GetAll();
-
                 result.TotalItems = allItems.Count();
                 result.Data = ConvertModelToViewModelList(
                     allItems.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()

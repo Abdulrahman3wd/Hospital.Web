@@ -6,7 +6,7 @@
         public string RoomNumber { get; set; } = null!;
         public string Type { get; set; } = null!;
         public string Status { get; set; } = null!;
-        public int HospitalId { get; set; }
+        public int HospitalInfoId { get; set; }
         public HospitalInfo Hospital { get; set; } = null!;
 
 

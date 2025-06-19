@@ -72,6 +72,11 @@ namespace Hospital.Services
 
         }
 
+        public List<HospitalInfo> GetAllHospitals()
+        {
+            return _unitOfWork.GenericRepository<HospitalInfo>().GetAll().ToList();
+        }
+
         public void UpdateHospitalInfo(HospitalInfoViewModel hospitalInfo)
         {
             var model = new HospitalInfoViewModel().ConvertViewModel(hospitalInfo);

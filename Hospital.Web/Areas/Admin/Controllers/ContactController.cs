@@ -7,19 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Hospital.Web.Areas.Admin.Controllers
 {
     [Area("admin")]
-    public class RoomController : Controller
+    public class ContactController : Controller
     {
-        private readonly IRoom _room;
+        private readonly IContact _contact;
         private readonly IHospitalInfo _hospitalInfo;
 
-        public RoomController(IRoom room, IHospitalInfo hospitalInfo)
+        public ContactController(IContact contact ,IHospitalInfo hospitalInfo)
         {
-            _room = room;
+            _contact = contact;
             _hospitalInfo = hospitalInfo;
         }
-        public IActionResult Index(int pageNumber= 1 , int pageSize= 10)
+        public IActionResult Index(int pageNumber = 1, int pageSize = 10)
         {
-            return View(_room.GetAll(pageNumber,pageSize));
+            return View(_contact.GetAll(pageNumber, pageSize));
         }
 
         #region Edit
@@ -27,18 +27,18 @@ namespace Hospital.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-
-            var viewModel = _room.GetRoomById(id);
+            var viewModel = _contact.GetContactById(id);
             ViewBag.Hospitals = new SelectList(_hospitalInfo.GetAllHospitals(), "Id", "Name", viewModel.HospitalInfoId);
+
             return View(viewModel);
         }
 
 
 
         [HttpPost]
-        public IActionResult Edit(RoomViewModel viewModel)
+        public IActionResult Edit(ContactViewModel viewModel)
         {
-            _room.UpdateRoom(viewModel);
+            _contact.UpdateContact(viewModel);
             return RedirectToAction("Index");
         }
         #endregion
@@ -49,15 +49,14 @@ namespace Hospital.Web.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewBag.Hospitals = new SelectList(_hospitalInfo.GetAllHospitals(), "Id", "Name");
-
             return View();
         }
 
 
         [HttpPost]
-        public IActionResult Create(RoomViewModel viewModel)
+        public IActionResult Create(ContactViewModel viewModel)
         {
-            _room.AddRoom(viewModel);
+            _contact.AddContact(viewModel);
             return RedirectToAction("Index");
         }
         #endregion
@@ -65,7 +64,7 @@ namespace Hospital.Web.Areas.Admin.Controllers
         #region Delete
         public IActionResult Delete(int id)
         {
-            _room.DeleteRoom(id);
+            _contact.DeleteContact(id);
             return RedirectToAction("Index");
         }
         #endregion

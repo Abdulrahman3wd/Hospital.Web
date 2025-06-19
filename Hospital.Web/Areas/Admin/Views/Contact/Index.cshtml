@@ -1,0 +1,72 @@
+﻿@model PageResult<Hospital.ViewModels.ContactViewModel>
+
+@{
+    ViewData["Title"] = "Contact List";
+}
+
+<h2 class="mb-3">Contact List</h2>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="fas fa-plus-circle me-1"></i> Create New
+    </a>
+</div>
+
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Hospital</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Data != null && Model.Data.Any())
+        {
+            foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.HospitalInfoId</td> 
+                    <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-1" title="Details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="Delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">No contact records found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-4">
+    <cs-pager cs-paging-pagenumber="Model.PageNumber"
+              cs-paging-totalitems="Model.TotalItems"
+              cs-paging-pagesize="Model.PageSize"
+              cs-pagenumber-param="pageNumber"
+              asp-area="admin"
+              asp-controller="Contact" 
+              asp-action="Index"
+              cs-pager-li-current-class="page-item active"
+              cs-pager-li-other-class="page-item"
+              cs-pager-li-non-active-class="page-item disabled"
+              cs-pager-link-current-class="page-link"
+              cs-pager-link-other-class="page-link">
+    </cs-pager>
+</div>

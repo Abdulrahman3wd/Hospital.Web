@@ -45,7 +45,7 @@ namespace Hospital.Services
 
             try
             {
-                var allItems = _unitOfWork.GenericRepository<Room>().GetAll();
+                var allItems = _unitOfWork.GenericRepository<Room>().GetAll(includeProperties:"Hospital");
 
                 result.TotalItems = allItems.Count();
                 result.Data = ConvertModelToViewModelList(

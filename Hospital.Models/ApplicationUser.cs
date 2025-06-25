@@ -16,12 +16,14 @@ namespace Hospital.Models
 
         public string Address { get; set; } = null!;
         public DateTime DOB { get; set; }
+        public bool IsDoctor { get; set; }
         public string Specialist { get; set; } = null!;
         public Department Department { get; set; } = null!;
         [NotMapped]
         public ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
         public ICollection<Payroll> Payrolls { get; set; } =new HashSet<Payroll>();
 
+        public ICollection<PatientReport> patientReports { get; set; }
 
 
     }

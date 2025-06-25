@@ -15,6 +15,22 @@ namespace Hospital.Repositories
         {
             
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<PatientReport>()
+                .HasOne(r => r.Doctor)
+                .WithMany()
+                .HasForeignKey("DoctorId")
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            builder.Entity<PatientReport>()
+                .HasOne(r => r.Patient)
+                .WithMany()
+                .HasForeignKey("PatientId")
+                .OnDelete(DeleteBehavior.Restrict);
+        }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Bill> Bills { get; set; }

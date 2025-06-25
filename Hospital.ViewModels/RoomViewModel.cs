@@ -14,6 +14,7 @@ namespace Hospital.ViewModels
         public string Type { get; set; } = null!;
         public string Status { get; set; } = null!;
         public int HospitalInfoId { get; set; }
+        public HospitalInfo HospitalInfo { get; set; }
 
         public RoomViewModel()
         {
@@ -26,6 +27,7 @@ namespace Hospital.ViewModels
             Type = model.Type;
             Status = model.Status;
             HospitalInfoId = model.HospitalInfoId;
+            HospitalInfo = model.Hospital;
         }
 
         public Room ConvertViewModel (RoomViewModel model)
@@ -36,7 +38,9 @@ namespace Hospital.ViewModels
                 RoomNumber = model.RoomNumber,
                 Type = model.Type,
                 Status = model.Status,
-                HospitalInfoId = model.HospitalInfoId
+                HospitalInfoId = model.HospitalInfoId,
+                Hospital = model.HospitalInfo
+                
             };
 
         }
